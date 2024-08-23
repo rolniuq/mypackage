@@ -25,12 +25,13 @@ func (l *ListNode) Create(values []int) *ListNode {
 }
 
 func (l *ListNode) Print() {
-	if l == nil {
-		return
+	c := l
+	for c != nil {
+		fmt.Print(c.Val)
+		if c.Next != nil {
+			fmt.Print(" -> ")
+		}
+		c = c.Next
 	}
-
-	if l != nil {
-		fmt.Println(l.Val)
-		l = l.Next
-	}
+	fmt.Println()
 }
