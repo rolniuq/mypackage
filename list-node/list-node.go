@@ -29,7 +29,7 @@ func (l *ListNode) Print() {
 		return
 	}
 
-	if l.Next != nil {
+	if l != nil {
 		fmt.Println(l.Val)
 		l = l.Next
 	}
