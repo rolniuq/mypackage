@@ -98,7 +98,7 @@ func Send[T any](req *http.Request) (*T, error) {
 	return &result, nil
 }
 
-func main() {
+func Sample() {
 	u, _ := url.Parse("https://jsonplaceholder.typicode.com/todos/1")
 
 	ops := &Ops{}
