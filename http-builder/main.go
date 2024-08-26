@@ -1,4 +1,4 @@
-package main
+package httpbuilder
 
 import (
 	"encoding/json"
@@ -11,13 +11,11 @@ import (
 type httpMethod string
 
 const (
-	GET     httpMethod = "GET"
-	POST    httpMethod = "POST"
-	PUT     httpMethod = "PUT"
-	DELETE  httpMethod = "DELETE"
-	HEAD    httpMethod = "HEAD"
-	OPTIONS httpMethod = "OPTIONS"
-	PATCH   httpMethod = "PATCH"
+	GET    httpMethod = "GET"
+	POST   httpMethod = "POST"
+	PUT    httpMethod = "PUT"
+	PATCH  httpMethod = "PATCH"
+	DELETE httpMethod = "DELETE"
 )
 
 type Ops struct {
