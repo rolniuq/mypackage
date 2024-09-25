@@ -7,14 +7,20 @@ import (
 
 type ValidateFunc func() error
 
-type Personal struct {
-	Name string
-	Age  string
-}
-
 type Validator[T any] struct {
 	m    map[string]ValidateFunc
 	data T
+}
+
+func (v *Validator[T]) isFieldValid(field string) bool {
+	arr := reflect.ValueOf(v.data).Elem()
+	for i := 0; i < arr.NumField(); i++ {
+		if arr.Type().Field(i).Name == field {
+			return true
+		}
+	}
+
+	return false
 }
 
 func NewValidator[T any](data T) *Validator[T] {
@@ -28,17 +34,6 @@ func (v *Validator[T]) Reset() {
 	v.m = make(map[string]ValidateFunc)
 }
 
-func (v *Validator[T]) IsFieldValid(field string) bool {
-	arr := reflect.ValueOf(v.data).Elem()
-	for i := 0; i < arr.NumField(); i++ {
-		if arr.Type().Field(i).Name == field {
-			return true
-		}
-	}
-
-	return false
-}
-
 func (v *Validator[T]) Register(name string, fn ValidateFunc) *Validator[T] {
 	v.m[name] = fn
 	return v
@@ -46,7 +41,7 @@ func (v *Validator[T]) Register(name string, fn ValidateFunc) *Validator[T] {
 
 func (v *Validator[T]) Validate() error {
 	for name, fn := range v.m {
-		if !v.IsFieldValid(name) {
+		if !v.isFieldValid(name) {
 			continue
 		}
 
@@ -55,11 +50,18 @@ func (v *Validator[T]) Validate() error {
 		}
 	}
 
+	v.Reset()
+
 	return nil
 }
 
 func Sample() error {
-	p := &Personal{
+	type personal struct {
+		Name string
+		Age  string
+	}
+
+	p := &personal{
 		Name: "foo",
 		Age:  "10",
 	}
