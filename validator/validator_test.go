@@ -7,7 +7,6 @@ import (
 )
 
 func TestSample(t *testing.T) {
-	err := Sample()
-	require.Error(t, err)
-	require.True(t, err.Error() == "name is empty")
+	errs := Sample()
+	require.NotEmpty(t, errs)
 }
