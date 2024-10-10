@@ -3,21 +3,23 @@ package adddoublequotestxt
 import (
 	"bufio"
 	"encoding/json"
-	"fmt"
 	"os"
+)
+
+const (
+	DEFAULT_OUT_DIR   = ".out"
+	DEFAULT_FILE_NAME = "output.json"
 )
 
 type Output struct {
 	Data []string `json:"data"`
 }
 
-func Run() {
-	file, err := os.Open("input.txt")
+func Run(fileName string) error {
+	file, err := os.Open(fileName)
 	if err != nil {
-		fmt.Println("Error opening file:", err)
-		return
+		return err
 	}
-
 	defer file.Close()
 
 	res := make([]string, 0)
@@ -27,12 +29,16 @@ func Run() {
 	}
 
 	if err := scanner.Err(); err != nil {
-		fmt.Println("Error reading file:", err)
-		return
+		return err
 	}
 
 	d := Output{res}
 	db, _ := json.Marshal(d)
 
-	os.WriteFile("output.json", db, 0644)
+	err = WriteFile(GetFileName(fileName), db)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
