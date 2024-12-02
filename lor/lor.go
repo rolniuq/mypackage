@@ -29,3 +29,13 @@ func Reduce[T any, R any](arr []T, init R, f func(R, T) R) R {
 
 	return init
 }
+
+func FlatMap[T any, R any](arr []T, f func(item T, index int) []R) []R {
+	result := make([]R, 0, len(arr))
+
+	for i, v := range arr {
+		result = append(result, f(v, i)...)
+	}
+
+	return result
+}

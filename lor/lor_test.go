@@ -61,3 +61,14 @@ func TestReduce(t *testing.T) {
 
 	require.True(t, sum == 95)
 }
+
+func TestFlatMap(t *testing.T) {
+	arr := [][]int{{1, 2}, {3, 4}}
+
+	result := FlatMap(arr, func(item []int, index int) []int {
+		return item
+	})
+
+	require.True(t, len(result) == 4)
+	require.True(t, result[0] == 1 && result[1] == 2 && result[2] == 3 && result[3] == 4)
+}
